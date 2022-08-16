@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_vite_bundle %}
+{% block head %}
+{% endblock%}
+{% block content %}
+    <div id="backdrop-root"></div>
+    <div id="overlay-root"></div>
+    <div id="root"></div>
+    {% render_vite_bundle %}
+{% endblock %}
+{% block js %}
+{% endblock %}

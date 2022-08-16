@@ -1,0 +1,125 @@
+.container-lobby {
+  grid-area: main;
+  display: grid;
+  grid-template-areas:
+    "app"
+    ".";
+  grid-gap: 2vmin;
+  align-content: space-around;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.lobby {
+  display: flex;
+  grid-area: app;
+  flex-flow: column;
+  user-select: none;
+}
+
+.inner-lobby {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-gap: 9px;
+  padding: 9px;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%),
+    0 1px 5px 0 rgb(0 0 0 / 12%);
+  border-radius: 3px;
+  flex: 1 1 100%;
+  position: relative;
+  background-size: 100% 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.inner-lobby > div {
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #404040;
+  background: rgba(186, 186, 186, 0.05);
+  color: #bababa;
+  transition: all 150ms;
+  display: flex;
+  flex-flow: column;
+  border-radius: 3px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.inner-lobby .number {
+  display: block;
+  font-size: 1.5em;
+  line-height: 1.6em;
+  letter-spacing: 0.1em;
+}
+
+.inner-lobby .description {
+  display: block;
+  font-size: 1.5em;
+  line-height: 1.6em;
+  letter-spacing: 0.1em;
+}
+
+@media (min-width: 500px) {
+  .container-lobby {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto repeat(3, fit-content(0));
+    grid-template-areas:
+      "table table"
+      "app app"
+      "side tv"
+      "side puzzle"
+      "blog blog"
+      "leader winner"
+      "tours tours"
+      "simuls simuls"
+      "about support";
+  }
+}
+@media (min-width: 800px) {
+  .container-lobby {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 12em repeat(2, fit-content(0));
+    grid-template-areas:
+      "table app app"
+      "side app app"
+      "tv leader winner"
+      "puzzle tours tours"
+      "support blog blog "
+      "about simuls simuls";
+  }
+}
+
+@media (min-width: 1260px) {
+  .container-lobby {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, fit-content(0));
+    grid-template-areas:
+      "side app app table"
+      "tv leader winner puzzle"
+      "about blog blog support"
+      ". tours tours ."
+      ". simuls simuls .";
+  }
+}
+
+@media (min-width: 500px) {
+  .lobby {
+    min-height: 400px;
+  }
+}
+
+@media (min-width: 800px) {
+  .lobby {
+    height: 600px;
+    max-height: calc(100vh - calc(60 + 0) - 2vmin);
+  }
+}
+
+@media (min-width: 320px) {
+  .inner-lobby {
+    font-size: calc(14px + 11 * ((100vw - 320px) / 880));
+  }
+}

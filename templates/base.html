@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="dc.language" content="ita" scheme="RFC1766">
+  <meta name="description" content="FermiApp">
+  <meta name="author" content="Filippo Leonetti">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+  <!-- tag canonico -->
+
+  <!-- Style -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-reboot.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-grid.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+  <!--Favicon-->
+  <!--Fonts-->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+SC&display=swap" rel="stylesheet">
+
+
+  <!--Facebook -->
+
+
+  <!--Twitter -->
+
+  {% block head %} {% endblock %}
+</head>
+<body>
+{% block content %} {% endblock %}
+{% block js %} {% endblock %}
+</body>
+</html>

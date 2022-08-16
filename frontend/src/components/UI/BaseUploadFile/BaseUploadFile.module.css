@@ -1,0 +1,68 @@
+.custom-file-upload {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+}
+
+.custom-file-upload input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.file-name {
+  height: 36px;
+  padding: 6px 20px;
+  border: 1px solid var(--danger);
+  width: 200px;
+  text-align: center;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: top;
+  color: var(--danger);
+}
+.file-input-container {
+  height: 36px;
+  width: 200px;
+  background-color: var(--danger);
+  color: white;
+  padding: 3px 10px;
+  outline: 1px dotted #722040;
+  outline: -webkit-focus-ring-color auto 5px var(--danger);
+  cursor: pointer;
+}
+
+input + label {
+  font-weight: 700;
+  display: inline-block;
+  padding-left: 10px;
+}
+
+.file-input-container:focus,
+.file-input-container:hover {
+  background-color: #722040;
+}
+
+.upload-icon {
+}
+
+@media screen and (min-width: 400px) {
+  .custom-file-upload {
+    flex-direction: row;
+  }
+}
+@media screen and (min-width: 992px) {
+  .custom-file-upload {
+    flex-direction: column;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .custom-file-upload {
+    flex-direction: row;
+  }
+}
