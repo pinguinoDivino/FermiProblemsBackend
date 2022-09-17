@@ -8,7 +8,6 @@ from channels.auth import AuthMiddlewareStack
 
 @database_sync_to_async
 def get_user(token_key):
-    # If you are using normal token based authentication
     try:
         knox_object = AuthToken.objects.filter(token_key=token_key[:CONSTANTS.TOKEN_KEY_LENGTH]).first()
         return knox_object.user
@@ -23,13 +22,10 @@ class TokenAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, receive, send):
         try:
             token_key = (dict((x.split('=') for x in scope['query_string'].decode().split("&")))).get('token', None)
+            scope['user'] = AnonymousUser() if token_key is None else await get_user(token_key)
         except ValueError:
-            token_key = None
-        scope['user'] = AnonymousUser() if token_key is None else await get_user(token_key)
-        return await super().__call__(scope, receive, send)
+            pass
+        return await self.inner(scope, receive, send)
 
 
-def TokenAuthMiddlewareStack(inner): return TokenAuthMiddleware(
-    AuthMiddlewareStack(inner))
-
-# TODO auth with session to add
+def TokenAuthMiddlewareStack(inner): return TokenAuthMiddleware(AuthMiddlewareStack(inner))

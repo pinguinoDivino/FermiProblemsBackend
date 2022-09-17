@@ -10,13 +10,13 @@ import os
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 from channels.security.websocket import AllowedHostsOriginValidator
-from fermi_web.middleware import TokenAuthMiddleware  # middleware custom Token auth
+from fermi_web.middleware import TokenAuthMiddlewareStack
 import games.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fermi_website.settings')
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": AllowedHostsOriginValidator(TokenAuthMiddleware(
+    "websocket": AllowedHostsOriginValidator(TokenAuthMiddlewareStack(
         URLRouter(
             games.routing.websocket_urlpatterns
         )

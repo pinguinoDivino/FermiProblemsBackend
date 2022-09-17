@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const ProblemEditor = () => {
   const navigate = useNavigate();
 
-  const [error, setError] = useState(""); //TODO sistemare html
+  const [error, setError] = useState("");
 
   const backHandler = () => {
     navigate({ pathname: "/" });

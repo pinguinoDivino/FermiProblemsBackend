@@ -10,9 +10,10 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class CustomUserManager(UserManager):
-    def create_user_from_api(self, username, email=None, password=None, first_name=None, last_name=None, **extra_fields):
+    def create_user_from_api(self, username, email=None, password=None, first_name=None, last_name=None, dpc=False, **extra_fields):
         extra_fields.setdefault('first_name', first_name.capitalize())
         extra_fields.setdefault('last_name', last_name.capitalize())
+        extra_fields.setdefault('dpc', dpc)
 
         return self._create_user(username=username, email=email, password=password, **extra_fields)
 
@@ -33,12 +34,16 @@ class CustomUserManager(UserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
+AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
+                  'twitter': 'twitter', 'email': 'email'}
+
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     GENDER_CHOICES = (
         ('M', 'Maschio'),
         ('F', 'Femmina'),
-        ('NoN', 'Neutro')
+        ('NoN', 'Altro')
     )
 
     username_validator = UnicodeUsernameValidator()
@@ -72,7 +77,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     birth_date = models.DateField(_('data di nascita'), null=True, blank=True)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=4, null=True, blank=True)
 
-    dpc = models.BooleanField(_("Consenso trattamento dati"), default=False, blank=True)
+    auth_provider = models.CharField(max_length=255, default=AUTH_PROVIDERS.get('email'))
+
+    dpc = models.BooleanField(_("consenso trattamento dati"), default=False, blank=True)
 
     objects = CustomUserManager()
 
@@ -115,3 +122,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.pk,))
+
+    def has_permission_to_validate_problems(self):
+        return self.groups.filter(name="Problem Manager").exists() or self.is_superuser

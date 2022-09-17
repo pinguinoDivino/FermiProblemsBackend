@@ -1,14 +1,14 @@
+import datetime
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-import datetime
-from .decorators import UseMultiplayerGame
-from django.db import transaction
-from games.models import MultiplayerGame, PlayerInMultiplayerGame
 from problems.models import Problem, UserAnswer
-from games.utilities import model_to_dict
+from games.decorators import UseMultiplayerGame
+from games.models import MultiplayerGame, PlayerInMultiplayerGame
+from games.utils import model_to_dict
 
-AVOID_DUPLICATES = True
+AVOID_DUPLICATES = False
 
 
 class BaseGameConsumer(AsyncJsonWebsocketConsumer):

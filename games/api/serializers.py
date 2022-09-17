@@ -1,6 +1,20 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from accounts.api.serializers import PlayerSerializer
 from games.models import MultiplayerGame
+
+User = get_user_model()
+
+
+class PlayerSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ["username", "full_name"]
+
+    @staticmethod
+    def get_full_name(instance):
+        return instance.get_full_name()
 
 
 class MultiplayerGameSerializer(serializers.ModelSerializer):

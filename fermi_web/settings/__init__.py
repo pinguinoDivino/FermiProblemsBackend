@@ -31,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'dj_rest_auth',
+    "dj_rest_auth.registration",
 
     'rest_framework',
     'knox',
@@ -87,7 +93,6 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'fermi_web.wsgi.application'
 
 ASGI_APPLICATION = "fermi_web.asgi.application"
-
 
 CHANNEL_LAYERS = {
     "default": {
@@ -159,7 +164,6 @@ STATICFILES_DIRS = [
     os.path.join(VITE_APP_DIR, "dist")
 ]
 
-
 STATIC_URL = '/static/'
 STATIC_ROOT = '/home/f.leonetti/static-serve/'
 
@@ -184,14 +188,35 @@ REST_FRAMEWORK = {
     )
 }
 # Site
-SITE_ID = 1
+SITE_ID = 2
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
+REST_AUTH_TOKEN_CREATOR = 'accounts.utils.create_knox_token'
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.api.serializers.UserDetailsSerializer',
+    'TOKEN_SERIALIZER': 'accounts.api.serializers.KnoxSerializer',
+}
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 CACHES = {
     'default': {
@@ -202,13 +227,14 @@ CACHES = {
 from datetime import timedelta
 from rest_framework.settings import api_settings
 
-
 REST_KNOX = {
-  'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
-  'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-  'TOKEN_TTL': timedelta(minutes=2),
-  'USER_SERIALIZER': 'accounts.api.serializers.CurrentUserSerializer',
-  'TOKEN_LIMIT_PER_USER': None,
-  'AUTO_REFRESH': False,
-  'EXPIRY_DATETIME_FORMAT': api_settings.DATETIME_FORMAT,
+    'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+    'AUTH_TOKEN_CHARACTER_LENGTH': 64,
+    'TOKEN_TTL': timedelta(hours=72),
+    'USER_SERIALIZER': 'accounts.api.serializers.CurrentUserSerializer',
+    'TOKEN_LIMIT_PER_USER': None,
+    'AUTO_REFRESH': False,
+    'EXPIRY_DATETIME_FORMAT': api_settings.DATETIME_FORMAT,
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

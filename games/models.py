@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from games.services.utilitis import calculate_score_from_logs
+from games.services.utils import calculate_score_from_logs
 
 User = get_user_model()
 

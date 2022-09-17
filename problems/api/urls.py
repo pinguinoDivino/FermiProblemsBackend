@@ -7,6 +7,10 @@ router.register(r"problems", ev.ProblemViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("problems/<int:id>/answers/", ev.UserAnswerListApiView.as_view()),
-    path("problems/<int:id>/answers/create/", ev.UserAnswerCreateApiView.as_view()),
+    path("problems/user/list/", ev.UserProblemListAPIView.as_view()),
+    path("problems/in-validation/first/", ev.InValidationProblemRetrieveAPIView.as_view()),
+    path("problems/<int:id>/validation/create/", ev.ProblemValidationByUserCreateAPIView.as_view()),
+    path("problems/<int:id>/validations/", ev.ProblemValidationByUserListAPIView.as_view()),
+    path("problems/choices/ratings/", ev.ProblemValidationRatingChoicesAPIView.as_view()),
+    path("problems/<int:id>/distribution/", ev.ProblemUserAnswerDistributionAPIView.as_view()),
 ]
